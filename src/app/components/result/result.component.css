@@ -1,0 +1,42 @@
+#result-div {
+    left:50px;
+    top:50px;
+    position:absolute;
+    width:600px;
+    height:450px;
+    text-align:center;
+    display:flex;
+    background-color:#ffffff;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 56px;
+    gap: 36px;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+#main {
+    width: 700px;
+    height: 650px;
+    background-color: #60B5FF;
+}
+
+#submit-div {
+    position: absolute;
+    display: flex;
+    top: 550px;
+    left: 250px;    
+    width: 200px;
+    height: 75px;
+    background-color: #FFF085;
+    font-size: 40px;
+    justify-content : center;
+    align-items: center;
+    text-align: center;
+    cursor : pointer;
+}

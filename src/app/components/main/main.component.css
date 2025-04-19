@@ -1,0 +1,76 @@
+#main {
+    width: 700px;
+    height: 650px;
+    background-color: #60B5FF;
+}
+
+#question-div { 
+    width: 600px;
+    height: 450px;
+    top: 50px;
+    left: 50px;
+    background-color: #FFFFFF;
+    position: absolute;
+}
+
+span, label {
+    font-size: 40px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    padding-top: 50px;
+}
+
+.form-field{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;  
+    gap: 20px;
+    height: 50px;
+    padding: 0 30px;
+}
+
+.form-label {
+    font-size: 32px;
+    width: 140px; /* 고정 너비로 정렬 맞추기 */
+    white-space: nowrap;
+}
+
+.range-label {
+    font-size: 32px;
+    white-space: nowrap;
+}
+
+select, .options{
+    font-size: 32px;
+}
+
+input[type="range"] {
+    transform: scale(1.4);
+    margin-right: 30px;
+    width: 100px;
+}
+
+input[type="radio"] {
+    transform: scale(2);
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+#submit-div {
+    position: absolute;
+    display: flex;
+    top: 550px;
+    left: 250px;    
+    width: 200px;
+    height: 75px;
+    background-color: #FFF085;
+    font-size: 40px;
+    justify-content : center;
+    align-items: center;
+    text-align: center;
+    cursor : pointer;
+}

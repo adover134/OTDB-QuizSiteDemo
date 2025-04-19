@@ -1,0 +1,38 @@
+<div id="main">
+    <div id="question-div">
+        <form #quizForm="ngForm" (ngSubmit)="getQuiz()">
+            <div id="question-num-input" class="form-field">
+                <span class="form-label">문제 수: </span><input [(ngModel)]="amount" name="amount"
+                    min="10" max="50" step="10" value="10" type="range" style="width: 200px" class="range-label"><span> {{amount}} 문항</span>
+            </div>
+            <div id="question-category" class="form-field">
+                <span class="form-label">카테고리: </span><select [(ngModel)]="category" name="category">
+                    <option *ngFor="let v of categoryValues" [value]="v" class="options" >
+                        {{ categories[v].length > 15 ? (categories[v] | slice:0:15) + '...' : categories[v] }}
+                    </option>
+                </select>
+            </div>
+            <div id="question-difficulty" class="form-field">
+                <label class="form-label">난이도: </label><select [(ngModel)]="difficulty" name="difficulty">
+                    <option *ngFor="let v of difficultyValues" [value]="v" class="options">
+                        {{ v }}
+                    </option>
+                </select>
+            </div>
+            <div id="question-answer-type" class="form-field">
+                <span style="margin-right: 6px">답 타입: </span><label style="margin-right: 6px">
+                    <input type="radio" name="type" [(ngModel)]="answerType" value="multiple">
+                    다지선다
+                  </label>
+                  <label style="margin-right: 6px">
+                    <input type="radio" name="type" [(ngModel)]="answerType" value="boolean">
+                    참/거짓
+                  </label>
+            </div>
+        </form>
+    </div>
+    <div id="submit-div" (click)="submitForm()" role="button" tabindex="0">
+        제출하기
+    </div>
+</div>
+<app-custom-snackbar></app-custom-snackbar>
