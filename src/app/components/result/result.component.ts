@@ -25,8 +25,6 @@ export class ResultComponent {
     else
     {
       this.result = null;
-      // 오류 발생 메시지 - '잘못된 접근입니다' 띄우기!
-      // 3초 후에 이동!
       this.router.navigateByUrl('/');
     }
     this.correct_answers_num = (this.result!.quizSet!.filter((e: Quiz) => e.correct === true)).length;

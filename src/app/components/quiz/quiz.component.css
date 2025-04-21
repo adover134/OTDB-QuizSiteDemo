@@ -52,16 +52,15 @@
     align-items: center;
     flex-direction: column;
     gap: 12px;
+    font-size:24px;
 }
 
 #quizDesc {
     height:200px;
-    font-size:24px;
 }
 
 #quizDescAns {
     height:150px;
-    font-size:24px;
 }
 
 div>p {

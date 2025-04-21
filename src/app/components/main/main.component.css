@@ -72,5 +72,19 @@ input[type="radio"] {
     justify-content : center;
     align-items: center;
     text-align: center;
-    cursor : pointer;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+#question-div>form div {
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    cursor: default;
 }

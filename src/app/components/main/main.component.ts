@@ -52,7 +52,7 @@ export class MainComponent {
       tap(quizSet => {
         switch (quizSet.response_code) {
           case 1:
-            // MatSnackBar로 오류 메시지 출력
+            this.snackbar.open('조건에 맞는 문제 집합이 없습니다!');
             break;
           case 0:
             this.solveQuiz(quizSet);

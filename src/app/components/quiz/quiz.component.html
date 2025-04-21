@@ -1,51 +1,23 @@
 <div id="main">
     <ng-container *ngIf="currentQuiz$ | async as current">
         <ng-container *ngIf="solvingState$ | async as solvingState">
-            <ng-container *ngIf="solvingState === 1; else checkAnswerState">
-                <ng-container *ngIf="current.type === 'multiple'; else booleanType">
-                    <div name="quizDesc" class="quizDesc" id="quizDesc">
-                        <div>Q. {{decodeHtmlEntities(current.question)}}</div>
-                        <div>Category: "{{decodeHtmlEntities(current.category)}}"</div>
-                    </div>
-                    <div *ngFor="let c of [0, 1, 2, 3]" (click)="checkAnswer(c)" [ngStyle]="getPosition(c)" class="quizMulti">
-                        {{getChoice(c)}}
-                    </div>
-                </ng-container>
-                <ng-template #booleanType>
-                    <div name="quizDesc" class="quizDesc" id="quizDesc">
-                        <div>Q. {{decodeHtmlEntities(current.question)}}</div>
-                        <div>Category: "{{decodeHtmlEntities(current.category)}}"</div>
-                    </div>
-                    <div *ngFor="let c of [0, 1]" (click)="checkAnswer(c)" [ngStyle]="getPosition(c)" class="quizBool">
-                        {{getChoice(c)}}
-                    </div>
-                </ng-template>
-            </ng-container>
-            <ng-template #checkAnswerState>
-                <ng-container *ngIf="current.type === 'multiple'; else booleanType">
-                    <ng-container *ngIf="current.type === 'multiple'; else booleanType">
-                        <div name="quizDesc" class="quizDesc" id="quizDescAns">
-                            <div>Q. {{decodeHtmlEntities(current.question)}}</div>
-                            <div>Category: "{{decodeHtmlEntities(current.category)}}"</div>
-                        </div>
-                        <div *ngFor="let c of [0, 1, 2, 3]" [ngStyle]="getPosition(c)" class="quizMultiR">
-                            {{getChoice(c)}}
-                        </div>
-                    </ng-container>
-                </ng-container>
-                <ng-template #booleanType>
-                    <div name="quizDesc" class="quizDesc" id="quizDescAns">
-                        <div>Q. {{decodeHtmlEntities(current.question)}}</div>
-                        <div>Category: "{{decodeHtmlEntities(current.category)}}"</div>
-                    </div>
-                    <div *ngFor="let c of [0, 1]" [ngStyle]="getPosition(c)" class="quizBoolR">
-                        {{getChoice(c)}}
-                    </div>
-                </ng-template>
-                <div id="toNext" (click)="nextState()">
-                    다음으로
-                </div>
-            </ng-template>
+            <div name="quizDesc" [id]="solvingState === 1 ? 'quizDesc': 'quizDescAns'" class="quizDesc">
+                <div>Q. {{decodeHtmlEntities(current.question)}}</div>
+                <div>Category: "{{decodeHtmlEntities(current.category)}}"</div>
+            </div>
+            <div *ngFor="let c of (current.type === 'multiple' ? [0, 1, 2, 3] : [0, 1])"
+                (click)="solvingState === 1 ? checkAnswer(c) : null" [ngStyle]="getPosition(c)"
+                [ngClass]="{
+                    'quizMulti': current.type === 'multiple' && solvingState === 1,
+                    'quizBool': current.type === 'boolean' && solvingState === 1,
+                    'quizMultiR': current.type === 'multiple' && solvingState === 2,
+                    'quizBoolR': current.type === 'boolean' && solvingState === 2
+                }">
+                {{getChoice(c)}}
+            </div>
+            <div id="toNext" (click)="nextState()" [ngStyle]="solvingState === 1 ? {display: 'none'} : null">
+                다음으로
+            </div>
         </ng-container>
     </ng-container>
 </div>
