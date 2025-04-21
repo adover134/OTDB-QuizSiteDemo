@@ -57,3 +57,11 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Web Demo
+
+You can try the site from [github page](https://adover134.github.io/OTDB-QuizSiteDemo/)
+
+## Quiz Resources
+
+All of the Quiz you can solve from the web page is provided from [Open Trivia DB](https://opentdb.com/) via OpenTDB API.
