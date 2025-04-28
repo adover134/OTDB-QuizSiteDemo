@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { QuizSet, isQuizSet } from '../../interfaces/quizSet';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map, tap } from 'rxjs';
-import { Quiz } from '../../interfaces/quiz';
+import { BehaviorSubject, firstValueFrom, map, tap } from 'rxjs';
+import { isQuiz, Quiz } from '../../interfaces/quiz';
 import { CommonModule } from '@angular/common';
+import { QuizState, isQuizState } from '../../interfaces/quizState';
+import { QuizService } from '../../services/quiz/quiz.service';
+import { isQuizResponse, QuizResponse } from '../../interfaces/quizResponse';
 
 @Component({
   selector: 'app-quiz',
@@ -14,7 +17,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './quiz.component.css'
 })
 export class QuizComponent {
-  private quizState: QuizSet|null;
+  private quizState: QuizState|null = null;
 
   private solvingStateSubject = new BehaviorSubject<number>(1);
   protected solvingState$ = this.solvingStateSubject.asObservable();
@@ -24,17 +27,23 @@ export class QuizComponent {
 
   protected choices = [1, 2, 3, 4];
 
-  constructor(private router: Router) {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state;
-    if (isQuizSet(state))
-      this.quizState = state;
-    else
-    {
-      this.quizState = null;
+  constructor(private router: Router, private quizService: QuizService) {
+    this.loadQuiz();
+  }
+
+  async loadQuiz() {
+    try {
+      const res = await firstValueFrom(this.quizService.getQuiz$());
+      if (!isQuizResponse(res)) {
+        this.router.navigateByUrl('/');
+        return;
+      }
+      this.quizState = res.data.result;
+      this.nextState();
+    } catch (error) {
+      console.error(error);
       this.router.navigateByUrl('/');
     }
-    this.nextState();
   }
 
   nextState() {
@@ -54,26 +63,48 @@ export class QuizComponent {
   }
 
   checkAnswer(answer: number) {
-    let state = this.currentQuiz.value;
-    if (this.currentQuiz!.value!.type === 'multiple')
+    let state: Quiz|null = isQuiz(this.currentQuiz.value)? this.currentQuiz.value:null;
+    if (!isQuiz(state))
+    {
+      console.log('Could not read current quiz');
+      this.router.navigateByUrl('/');
+      return;
+    }
+    if (state.type === 'multiple')
     {
       if (this.choices[answer] === 1)
-        state!.correct = true;
-      state!.chosen = this.choices[answer];
+        state.correct = true;
+      state.chosen = this.choices[answer];
     }
     else
     {
-      if ((this.currentQuiz!.value!.correct_answer === 'True' && answer === 0) || (this.currentQuiz!.value!.correct_answer === 'False' && answer === 1))
-        state!.correct = true;
-      state!.chosen = answer;
+      if ((state.correct_answer === 'True' && answer === 0) || (state.correct_answer === 'False' && answer === 1))
+        state.correct = true;
+      state.chosen = answer;
     }
     this.currentQuiz.next(state);
+    // 채점 결과 전송
+    if(isQuizState(this.quizState))
+      this.quizService.saveQuiz$(this.quizState).pipe().subscribe();
+    else{
+      console.log('Could not save answer');
+      this.router.navigateByUrl('/quiz');
+    }
+    console.log(this.quizState);
     // 상태 갱신
     this.solvingStateSubject.next(2);
   }
 
   toResult() {
-    this.router.navigateByUrl('/result', { state: this.quizState! });
+    if (isQuizState(this.quizState))
+    {
+      this.quizService.saveResult$().pipe().subscribe();
+      this.router.navigateByUrl('/result', { state: this.quizState });
+    }
+    else{
+      console.log('Error: current solving was corrupted.');
+      this.router.navigateByUrl('/quiz');
+    }
   }
 
   decodeHtmlEntities(str: string) { 

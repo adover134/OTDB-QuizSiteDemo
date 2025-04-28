@@ -27,7 +27,7 @@ form {
 .form-field{
     display: flex;
     justify-content: flex-start;
-    align-items: center;  
+    align-items: center;
     gap: 20px;
     height: 50px;
     padding: 0 30px;

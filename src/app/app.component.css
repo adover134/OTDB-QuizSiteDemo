@@ -13,10 +13,72 @@
     user-select: none;
     cursor: pointer;
 }
+
 #menu-bar {
     width:900px;
     background-color: #FFF085;
+    position: absolute;
     left: 300px;
+}
+
+#login_zone {
+    position: absolute;
+    width: 200px;
+    height: 150px;
+    gap: 14px;
+    background-color: #FFC070;
+}
+
+#login_text {
+    font-size: 36px;
+    font-weight: 700;
+    width: 200px;
+    height: 36px;
+    top: 20px;
+}
+
+#logout_text {
+    font-size: 48px;
+    font-weight: 800px;
+    cursor: pointer;
+}
+
+#logout_text_zone {
+    width: 200px;
+    height: 150px;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+}
+
+#login_text, #logout_text
+{
+    position: absolute;
+    display: flex;
+    text-align: center;
+    align-items: center;  
+    justify-content: center;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+#login_buttons {
+    height: 80px;
+    width: 160px;
+    position: absolute;
+    top: 70px;
+    left: 20px;
+}
+
+#solve_history {
+    width: 150px;
+    height: 150px;
+    background-color: #FFD87B;
+    left: 200px;
+    display: absolute;
 }
 
 .left-side, .right-side {

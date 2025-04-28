@@ -1,0 +1,10 @@
+#googleLoginButton {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}

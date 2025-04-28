@@ -3,7 +3,24 @@
     <div class="top-side" id="logo" (click)="toMain()">
       <img src="logo.png" alt="홈으로" id="logo-image" />
     </div>
-    <div class="top-side" id="menu-bar"></div>
+    <div class="top-side" id="menu-bar">
+      <div id="login_zone" *ngIf="loginState$ | async as lI; else loginRequired" (click)="logOut()">
+        <div id="logout_text_zone">
+          <div id="logout_text">로그아웃</div>
+        </div>
+      </div>
+      <ng-template #loginRequired>
+        <div id="login_zone">
+          <div id="login_text">로그인 버튼</div>
+          <div id="login_buttons">
+            <app-google-sign-in (loginWithGoogle)="googleSignin($event)"></app-google-sign-in>
+          </div>
+        </div>
+      </ng-template>
+      <div id="solve_history">
+        <div>문제 풀이 내역</div>
+      </div>
+    </div>
     <div class="left-side">
       
     </div>

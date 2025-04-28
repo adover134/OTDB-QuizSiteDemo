@@ -1,19 +1,35 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OTDBResponse } from '../../interfaces/OTDBResponse';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { QuizRequirements } from '../../interfaces/quizRequirements';
-import { Quiz } from '../../interfaces/quiz';
 import { QuizSet } from '../../interfaces/quizSet';
+import { QuizResponse } from '../../interfaces/quizResponse';
+import { QuizState } from '../../interfaces/quizState';
+import { QuizRequirements } from '../../interfaces/quizRequirements';
+import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
+import { OTDBResponse } from '../../interfaces/OTDBResponse';
+import { Quiz } from '../../interfaces/quiz';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MainService {
+export class QuizService {
+
+  private quizCondition = new BehaviorSubject<QuizRequirements | null> (null);
+  protected quizCondition$ = this.quizCondition.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  getQuiz$(quiz: QuizRequirements): Observable<QuizSet> {
+  saveQuiz$(q: QuizSet|QuizState) {
+    return this.http.post('http://localhost:8080/quiz/save',
+      {
+        quizSet: q.quizSet,
+        nextQuiz: q.nextQuiz,
+        quizNum: q.quizNum
+      },
+      {headers: new HttpHeaders({"Content-Type": "application/json"}), withCredentials: true}
+    );
+  }
+
+  obtainQuiz$(quiz: QuizRequirements): Observable<QuizSet> {
 		var OTDBUrl = `https://opentdb.com/api.php?amount=${quiz.amount}&difficulty=${quiz.difficulty}&type=${quiz.type}`;
 		if (quiz.category !== 33)
       OTDBUrl = OTDBUrl+`&category=${quiz.category}`;
@@ -33,8 +49,8 @@ export class MainService {
                   question: q.question,
                   correct_answer: q.correct_answer,
                   incorrect_answers: q.incorrect_answers,
-                  chosen: 0,
-                  correct: false
+                  correct: false,
+                  chosen: 0
                 })
               ),
               nextQuiz: 0,
@@ -55,4 +71,13 @@ export class MainService {
     console.log(error);
     return throwError(() => new Error(`Error Occurred - Error Code: ${error.status}`));
   }
+
+  getQuiz$() {
+    return this.http.get<QuizResponse> ('http://localhost:8080/quiz/current', {withCredentials: true});
+  }
+
+  saveResult$() {
+    return this.http.get<Response> ('http://localhost:8080/quiz/save_result', {withCredentials: true});
+  }
+
 }

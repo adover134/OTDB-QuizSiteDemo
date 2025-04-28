@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { isQuizSet, QuizSet } from '../../interfaces/quizSet';
 import { SnackbarStackService } from '../../services/custom-snackbar/custom-snackbar.service';
-import { isQuiz, Quiz } from '../../interfaces/quiz';
+import { Quiz } from '../../interfaces/quiz';
+import { isQuizState, QuizState } from '../../interfaces/quizState';
 
 @Component({
   selector: 'app-result',
@@ -12,7 +12,7 @@ import { isQuiz, Quiz } from '../../interfaces/quiz';
 })
 export class ResultComponent {
 
-  private result: QuizSet|null;
+  private result: QuizState|null;
 
   protected correct_answers_num: number;
   protected quiz_num: number;
@@ -20,12 +20,12 @@ export class ResultComponent {
   constructor (private router: Router, private snackbar: SnackbarStackService) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
-    if (isQuizSet(state))
+    if (isQuizState(state))
       this.result = state;
     else
     {
       this.result = null;
-      this.router.navigateByUrl('/');
+      this.toMain();
     }
     this.correct_answers_num = (this.result!.quizSet!.filter((e: Quiz) => e.correct === true)).length;
     this.quiz_num = this.result!.quizNum!;
