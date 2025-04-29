@@ -8,7 +8,7 @@ export interface Quiz {
 
     // 문제 정답 여부
     correct: boolean;
-    // 선택한 답답
+    // 선택한 답
     chosen: number;
 }
 

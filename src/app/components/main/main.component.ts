@@ -37,7 +37,9 @@ export class MainComponent {
   private loggedIn = new BehaviorSubject<boolean> (false);
   protected loggedIn$ = this.loggedIn.asObservable();
 
-  constructor(private router: Router, private quizService: QuizService, private snackbar: SnackbarStackService) { }
+  constructor(private router: Router, private quizService: QuizService, private snackbar: SnackbarStackService) {
+    this.quizService.getResult$().subscribe();
+  }
 
   submitForm() {
     if (this.quizForm.valid) {
@@ -54,6 +56,7 @@ export class MainComponent {
             this.snackbar.open('조건에 맞는 문제 집합이 없습니다!');
             break;
           case 0:
+            this.quizService.saveCondition(this.quizForm.value);
             this.solveQuiz(quizSet);
             break;
         }
@@ -61,12 +64,14 @@ export class MainComponent {
       catchError(this.handleError)
     )
     .subscribe();
-}
+  }
 
-  solveQuiz(quizSet: QuizSet): void {
+  async solveQuiz(quizSet: QuizSet) {
+    await new Promise(resolve => setTimeout(resolve, 500));
     this.quizService.saveQuiz$(quizSet)
     .pipe()
     .subscribe();
+    await new Promise(resolve => setTimeout(resolve, 500));
     this.router.navigateByUrl('/quiz', {state: quizSet});
   }
 

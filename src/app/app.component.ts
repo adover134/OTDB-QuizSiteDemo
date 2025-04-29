@@ -19,7 +19,7 @@ import { SocialLoginModule } from '@abacritt/angularx-social-login';
 })
 export class AppComponent {
   title = 'QuizSite';
-  loginState = new BehaviorSubject<boolean>(false);
+  private loginState = new BehaviorSubject<boolean>(false);
   loginState$ = this.loginState.asObservable();
 
   constructor (private route: Router, private authService: AuthService) {

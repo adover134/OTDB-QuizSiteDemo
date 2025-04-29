@@ -32,6 +32,7 @@ export class QuizComponent {
   }
 
   async loadQuiz() {
+    await new Promise(resolve => setTimeout(resolve, 200));
     try {
       const res = await firstValueFrom(this.quizService.getQuiz$());
       if (!isQuizResponse(res)) {
@@ -95,15 +96,15 @@ export class QuizComponent {
     this.solvingStateSubject.next(2);
   }
 
-  toResult() {
+  async toResult() {
     if (isQuizState(this.quizState))
     {
-      this.quizService.saveResult$().pipe().subscribe();
+      this.quizService.saveResult();
+      await new Promise(resolve => setTimeout(resolve, 500));
       this.router.navigateByUrl('/result', { state: this.quizState });
     }
     else{
       console.log('Error: current solving was corrupted.');
-      this.router.navigateByUrl('/quiz');
     }
   }
 

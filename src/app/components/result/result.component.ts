@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnackbarStackService } from '../../services/custom-snackbar/custom-snackbar.service';
-import { Quiz } from '../../interfaces/quiz';
-import { isQuizState, QuizState } from '../../interfaces/quizState';
+import { QuizService } from '../../services/quiz/quiz.service';
+import { map } from 'rxjs';
+import { isQuizResultResponse } from '../../interfaces/quizResultResponse';
 
 @Component({
   selector: 'app-result',
@@ -12,26 +13,31 @@ import { isQuizState, QuizState } from '../../interfaces/quizState';
 })
 export class ResultComponent {
 
-  private result: QuizState|null;
+  protected correct_answers_num: number = 0;
+  protected quiz_num: number = 0;
 
-  protected correct_answers_num: number;
-  protected quiz_num: number;
+  constructor (private router: Router, private snackbar: SnackbarStackService, private quizService: QuizService) {
+    this.quizService.getResult$()
+    .pipe(map(res => {
+      if(isQuizResultResponse(res))
+      {
+        this.correct_answers_num = res.data.corrects;
+        this.quiz_num = res.data.total;
+      }
+      else
+        this.handleError();
+    }))
+    .subscribe();
+    this.quizService.getResults$(1).subscribe(res => console.log(res));
+  }
 
-  constructor (private router: Router, private snackbar: SnackbarStackService) {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state;
-    if (isQuizState(state))
-      this.result = state;
-    else
-    {
-      this.result = null;
-      this.toMain();
-    }
-    this.correct_answers_num = (this.result!.quizSet!.filter((e: Quiz) => e.correct === true)).length;
-    this.quiz_num = this.result!.quizNum!;
+  async handleError() {
+    this.snackbar.open('잘못된 접근입니다.');
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    this.toMain();
   }
 
   toMain() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/'); 
   }
 }
