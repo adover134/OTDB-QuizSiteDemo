@@ -1,0 +1,73 @@
+#main {
+    width: 700px;
+    height: 650px;
+    background-color: #60B5FF;
+}
+table{
+    border-collapse: collapse;
+    border-color: #000000;
+    position: absolute;
+    left: 40px;
+}
+.table-head {
+    height: 50px;
+    background-color: #FFDD97;
+    border: solid;
+}
+.column-id {
+    width: 50px;
+}
+.column-category {
+    width: 310px;
+}
+.column-difficulty {
+    width: 70px;
+}
+.column-type {
+    width: 70px;
+}
+.column-amount, .column-corrects {
+    width: 50px;
+}
+.table-body {
+    height: 50px;
+}
+tbody {
+    font-size: 16px;
+    background-color: #FFFFFF;
+}
+td {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    border-style: solid;
+    border-color: #000000;
+    height: 50px;
+}
+#pagination {
+    display: flex;
+    position:absolute;
+    left: 40px;
+    top: 590px;
+    width: 623px;
+    height: 50px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 0px 0px;
+}
+.pagination {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}

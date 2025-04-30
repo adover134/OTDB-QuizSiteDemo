@@ -1,12 +1,31 @@
 <table>
     <thead>
         <tr>
-            <th></th>
+            <th class="column-id table-head">번호</th>
+            <th class="column-category table-head">카테고리</th>
+            <th class="column-difficulty table-head">난이도</th>
+            <th class="column-type table-head">답안 종류</th>
+            <th class="column-amount table-head">문제 수</th>
+            <th class="column-corrects table-head">맞춘 수</th>
         </tr>
     </thead>
-    <tbody *ngFor="">
-        <tr>
-            <td></td>
+    <tbody>
+        <tr *ngFor="let h of (history$|async); let i = index" class="table-body">
+            <td class="column-id">{{i+10*(page-1)+1}}</td>
+            <td class="column-category">{{categories[h.category]}}</td>
+            <td class="column-difficulty">{{h.difficulty}}</td>
+            <td class="column-type">{{h.type}}</td>
+            <td class="column-amount">{{h.amount}}</td>
+            <td class="column-corrects">{{h.corrects}}</td>
         </tr>
     </tbody>
 </table>
+<div id="pagination">
+    <div id="First" *ngIf="page != 1" class="pagination" (click)="getHistory(1)">First</div>
+    <div id="2min" *ngIf="page >= 4" class="pagination" (click)="getHistory(page-2)">{{page-2}}</div>
+    <div id="1min" *ngIf="page >= 3" class="pagination" (click)="getHistory(page-1)">{{page-1}}</div>
+    <div id="currentPage" class="pagination">{{page}}</div>
+    <div id="1plus" *ngIf="maxPage > (page+1)" class="pagination" (click)="getHistory(page+1)">{{page+1}}</div>
+    <div id="2plus" *ngIf="maxPage > (page+2)" class="pagination" (click)="getHistory(page+2)">{{page+2}}</div>
+    <div id="Last" *ngIf="page != maxPage" class="pagination" (click)="getHistory(maxPage)">Last</div>
+</div>

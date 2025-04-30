@@ -94,4 +94,8 @@ export class QuizService {
     return this.http.get<ResultsResponse> (`http://localhost:8080/quiz/history/${page}`, {withCredentials: true});
   }
 
+  getHistoryCount$() {
+    return this.http.get<Response> ('http://localhost:8080/quiz/historyPages', {withCredentials: true});
+  }
+
 }

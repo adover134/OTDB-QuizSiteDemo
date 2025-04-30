@@ -51,6 +51,10 @@ export class AppComponent {
     this.route.navigateByUrl('/');
   }
 
+  toHistory (): void {
+    this.route.navigateByUrl('/history');
+  }
+
   logOut() {
     this.authService.logOut();
   }
